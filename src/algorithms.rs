@@ -3,11 +3,11 @@ use crate::state::QuantumState;
 use num_complex::Complex;
 
 #[derive(Clone)]
-/// Entry point for running a named algorithm
 pub enum Algorithm {
     Bell,
     DeutschConst,
     DeutschBalanced,
+    Superdense,
 }
 
 pub fn run(algorithm: Algorithm) {
@@ -15,6 +15,7 @@ pub fn run(algorithm: Algorithm) {
         Algorithm::Bell => run_bell_state(),
         Algorithm::DeutschConst => run_deutsch_const(),
         Algorithm::DeutschBalanced => run_deutsch_balanced(),
+        Algorithm::Superdense => run_superdense(),
     }
 }
 
@@ -77,6 +78,40 @@ fn run_deutsch(oracle: [[Complex<f64>; 4]; 4], label: &str) {
         "1" => println!("→ f is balanced"),
         _ => println!("→ Invalid result"),
     }
+}
+
+pub fn run_superdense() {
+    println!("\n[Superdense Coding] Encode 2 classical bits using 1 qubit");
+
+    let bits = "11"; // ← You can change this to 00, 01, 10, 11
+
+    println!("\n[Step 1] Prepare Bell state |Φ+⟩");
+    let mut q = QuantumState::new();
+    q.apply_gate(&H1);
+    q.apply_gate(&CNOT12);
+    print_state(&q);
+
+    println!("\n[Step 2] Alice encodes bits: {}", bits);
+    match bits {
+        "00" => {} // do nothing
+        "01" => q.apply_gate(&X1),
+        "10" => q.apply_gate(&Z1),
+        "11" => {
+            q.apply_gate(&X1);
+            q.apply_gate(&Z1);
+        }
+        _ => panic!("Invalid bit string"),
+    }
+    print_state(&q);
+
+    println!("\n[Step 3] Bob decodes (apply CNOT + H)");
+    q.apply_gate(&CNOT12);
+    q.apply_gate(&H1);
+    print_state(&q);
+
+    println!("\n[Step 4] Measure both qubits");
+    let result = q.measure();
+    println!("→ Decoded bits: |{}⟩", result);
 }
 
 /// Utility: pretty-print the state vector
