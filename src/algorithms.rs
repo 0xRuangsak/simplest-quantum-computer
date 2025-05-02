@@ -130,6 +130,7 @@ pub fn run_parity_check() {
         q.apply_gate(&H2);
 
         // Step 2: Apply Z to qubit 0 (or Z2) — phase flip path with qubit 0 = 1
+        q.apply_gate(&Z1);
         q.apply_gate(&Z2);
 
         // Step 3: Apply Hadamard to qubit 0 only
@@ -139,8 +140,8 @@ pub fn run_parity_check() {
         let result = q.measure();
 
         let parity = match &result[..1] {
-            "0" => "even",
-            "1" => "odd",
+            "0" => "odd",
+            "1" => "even",
             _ => "invalid",
         };
 
