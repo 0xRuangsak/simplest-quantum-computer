@@ -16,6 +16,7 @@ fn main() {
             "Deutsch's Algorithm (balanced)",
             Some(Algorithm::DeutschBalanced),
         ),
+        ("Superdense Coding", Some(Algorithm::Superdense)),
         ("Exit", None),
     ];
 
