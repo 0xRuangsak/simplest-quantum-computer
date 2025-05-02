@@ -27,12 +27,28 @@ pub const H1: Gate = [
     [c(0.0), c(FRAC_1_SQRT_2), c(0.0), c(-FRAC_1_SQRT_2)],
 ];
 
+// Hadamard on qubit 1
+pub const H2: Gate = [
+    [c(FRAC_1_SQRT_2), c(FRAC_1_SQRT_2), c(0.0), c(0.0)],
+    [c(FRAC_1_SQRT_2), c(-FRAC_1_SQRT_2), c(0.0), c(0.0)],
+    [c(0.0), c(0.0), c(FRAC_1_SQRT_2), c(FRAC_1_SQRT_2)],
+    [c(0.0), c(0.0), c(FRAC_1_SQRT_2), c(-FRAC_1_SQRT_2)],
+];
+
 // CNOT: control qubit 0 → target qubit 1
 pub const CNOT12: Gate = [
     [c(1.0), c(0.0), c(0.0), c(0.0)],
     [c(0.0), c(1.0), c(0.0), c(0.0)],
     [c(0.0), c(0.0), c(0.0), c(1.0)],
     [c(0.0), c(0.0), c(1.0), c(0.0)],
+];
+
+// CNOT: control qubit 1 → target qubit 0
+pub const CNOT21: Gate = [
+    [c(1.0), c(0.0), c(0.0), c(0.0)],
+    [c(0.0), c(0.0), c(0.0), c(1.0)],
+    [c(0.0), c(0.0), c(1.0), c(0.0)],
+    [c(0.0), c(1.0), c(0.0), c(0.0)],
 ];
 
 // Convenience macro for complex constants
