@@ -51,6 +51,13 @@ pub const CNOT21: Gate = [
     [c(0.0), c(1.0), c(0.0), c(0.0)],
 ];
 
+pub const DEUTSCH_CONST: Gate = [
+    [c(1.0), c(0.0), c(0.0), c(0.0)],
+    [c(0.0), c(1.0), c(0.0), c(0.0)],
+    [c(0.0), c(0.0), c(1.0), c(0.0)],
+    [c(0.0), c(0.0), c(0.0), c(1.0)],
+];
+
 // Convenience macro for complex constants
 const fn c(x: f64) -> Complex<f64> {
     Complex { re: x, im: 0.0 }
