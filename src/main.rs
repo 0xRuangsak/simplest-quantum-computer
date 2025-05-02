@@ -8,7 +8,14 @@ use inquire::Select;
 fn main() {
     let options: Vec<(&str, Option<Algorithm>)> = vec![
         ("Bell State", Some(Algorithm::Bell)),
-        ("Deutsch's Algorithm", Some(Algorithm::Deutsch)),
+        (
+            "Deutsch's Algorithm (constant)",
+            Some(Algorithm::DeutschConst),
+        ),
+        (
+            "Deutsch's Algorithm (balanced)",
+            Some(Algorithm::DeutschBalanced),
+        ),
         ("Exit", None),
     ];
 
