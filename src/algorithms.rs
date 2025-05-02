@@ -6,12 +6,13 @@ use crate::state::QuantumState;
 /// Entry point for running a named algorithm
 pub enum Algorithm {
     Bell,
-    // Add more: Deutsch, Teleport, etc.
+    Deutsch,
 }
 
 pub fn run(algorithm: Algorithm) {
     match algorithm {
         Algorithm::Bell => run_bell_state(),
+        Algorithm::Deutsch => run_deutsch(),
     }
 }
 
@@ -33,6 +34,36 @@ pub fn run_bell_state() {
     let result = q.measure();
     print_state(&q);
     println!("→ Measurement result: |{}⟩", result);
+}
+
+pub fn run_deutsch() {
+    println!("\n[Deutsch's Algorithm]");
+
+    println!("\n[Step 1] Initialize state to |01⟩");
+    let mut q = QuantumState::from_basis("01");
+    print_state(&q);
+
+    println!("\n[Step 2] Apply H to both qubits");
+    q.apply_gate(&H1);
+    q.apply_gate(&H2);
+    print_state(&q);
+
+    println!("\n[Step 3] Apply oracle for f(x) = x (balanced function)");
+    q.apply_gate(&CNOT12); // Balanced oracle
+    print_state(&q);
+
+    println!("\n[Step 4] Apply H to qubit 0");
+    q.apply_gate(&H1);
+    print_state(&q);
+
+    println!("\n[Step 5] Measure qubit 0 (first qubit only)");
+    let collapsed = q.measure();
+    println!("→ Measured: |{}⟩", collapsed);
+    match &collapsed[..1] {
+        "0" => println!("→ f is constant"),
+        "1" => println!("→ f is balanced"),
+        _ => println!("→ Invalid result"),
+    }
 }
 
 /// Utility: pretty-print the state vector

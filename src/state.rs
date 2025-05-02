@@ -61,4 +61,11 @@ impl QuantumState {
         // Step 4: return the measured bitstring (e.g. "00", "11")
         format!("{:02b}", collapsed_index)
     }
+
+    pub fn from_basis(bits: &str) -> Self {
+        let index = usize::from_str_radix(bits, 2).unwrap();
+        let mut state = vec![Complex::new(0.0, 0.0); 4];
+        state[index] = Complex::new(1.0, 0.0);
+        Self { state }
+    }
 }
