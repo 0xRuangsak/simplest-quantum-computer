@@ -8,6 +8,7 @@ pub enum Algorithm {
     DeutschConst,
     DeutschBalanced,
     Superdense,
+    ParityCheck,
 }
 
 pub fn run(algorithm: Algorithm) {
@@ -16,6 +17,7 @@ pub fn run(algorithm: Algorithm) {
         Algorithm::DeutschConst => run_deutsch_const(),
         Algorithm::DeutschBalanced => run_deutsch_balanced(),
         Algorithm::Superdense => run_superdense(),
+        Algorithm::ParityCheck => run_parity_check(),
     }
 }
 
@@ -112,6 +114,39 @@ pub fn run_superdense() {
     println!("\n[Step 4] Measure both qubits");
     let result = q.measure();
     println!("→ Decoded bits: |{}⟩", result);
+}
+
+pub fn run_parity_check() {
+    println!("\n[Parity Check] Measure parity of 2-qubit inputs:");
+
+    let inputs = ["00", "01", "10", "11"];
+
+    for &input in &inputs {
+        println!("\nInput basis state: |{}⟩", input);
+        let mut q = QuantumState::from_basis(input);
+
+        // Step 1: Apply Hadamard to both qubits
+        q.apply_gate(&H1);
+        q.apply_gate(&H2);
+
+        // Step 2: Apply Z to qubit 0 (or Z2) — phase flip path with qubit 0 = 1
+        q.apply_gate(&Z2);
+
+        // Step 3: Apply Hadamard to qubit 0 only
+        q.apply_gate(&H1);
+
+        // Step 4: Measure qubit 0
+        let result = q.measure();
+
+        let parity = match &result[..1] {
+            "0" => "even",
+            "1" => "odd",
+            _ => "invalid",
+        };
+
+        println!("→ Measured qubit 0: {}", &result[..1]);
+        println!("→ Parity: {}", parity);
+    }
 }
 
 /// Utility: pretty-print the state vector

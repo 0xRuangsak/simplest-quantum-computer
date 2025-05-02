@@ -17,6 +17,7 @@ fn main() {
             Some(Algorithm::DeutschBalanced),
         ),
         ("Superdense Coding", Some(Algorithm::Superdense)),
+        ("Parity Check", Some(Algorithm::ParityCheck)),
         ("Exit", None),
     ];
 
