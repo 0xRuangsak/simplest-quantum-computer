@@ -3,19 +3,17 @@ mod gates;
 mod state;
 
 use algorithms::run_bell_state;
-use std::env;
+use inquire::Select;
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
+    let options = vec!["Bell State", "Exit"];
 
-    if args.len() < 2 {
-        eprintln!("Usage: cargo run -- <algorithm>");
-        eprintln!("Available: bell");
-        return;
-    }
+    let selection = Select::new("Choose an algorithm to run:", options).prompt();
 
-    match args[1].as_str() {
-        "bell" => run_bell_state(),
-        _ => eprintln!("Unknown algorithm: {}", args[1]),
+    match selection {
+        Ok("Bell State") => run_bell_state(),
+        Ok("Exit") | _ => {
+            println!("Exiting...");
+        }
     }
 }
