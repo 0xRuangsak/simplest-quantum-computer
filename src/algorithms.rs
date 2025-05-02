@@ -9,6 +9,7 @@ pub enum Algorithm {
     DeutschBalanced,
     Superdense,
     ParityCheck,
+    Grover,
 }
 
 pub fn run(algorithm: Algorithm) {
@@ -18,6 +19,7 @@ pub fn run(algorithm: Algorithm) {
         Algorithm::DeutschBalanced => run_deutsch_balanced(),
         Algorithm::Superdense => run_superdense(),
         Algorithm::ParityCheck => run_parity_check(),
+        Algorithm::Grover => run_grover(),
     }
 }
 
@@ -148,6 +150,29 @@ pub fn run_parity_check() {
         println!("→ Measured qubit 0: {}", &result[..1]);
         println!("→ Parity: {}", parity);
     }
+}
+
+pub fn run_grover() {
+    println!("\n[Grover's Algorithm] Search for |10⟩");
+
+    let mut q = QuantumState::new();
+
+    println!("\n[Step 1] Apply Hadamard to both qubits");
+    q.apply_gate(&H1);
+    q.apply_gate(&H2);
+    print_state(&q);
+
+    println!("\n[Step 2] Apply oracle (mark |10⟩)");
+    q.apply_gate(&GROVER_ORACLE_10);
+    print_state(&q);
+
+    println!("\n[Step 3] Apply diffusion operator");
+    q.apply_gate(&DIFFUSION);
+    print_state(&q);
+
+    println!("\n[Step 4] Measure");
+    let result = q.measure();
+    println!("→ Found: |{}⟩", result);
 }
 
 /// Utility: pretty-print the state vector

@@ -18,6 +18,7 @@ fn main() {
         ),
         ("Superdense Coding", Some(Algorithm::Superdense)),
         ("Parity Check", Some(Algorithm::ParityCheck)),
+        ("Grover's Algorithm", Some(Algorithm::Grover)),
         ("Exit", None),
     ];
 

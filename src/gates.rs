@@ -72,6 +72,20 @@ pub const Z2: Gate = [
     [c(0.0), c(0.0), c(0.0), c(-1.0)],
 ];
 
+pub const GROVER_ORACLE_10: Gate = [
+    [c(1.0), c(0.0), c(0.0), c(0.0)],
+    [c(0.0), c(1.0), c(0.0), c(0.0)],
+    [c(0.0), c(0.0), c(-1.0), c(0.0)],
+    [c(0.0), c(0.0), c(0.0), c(1.0)],
+];
+
+pub const DIFFUSION: Gate = [
+    [c(-0.5), c(0.5), c(0.5), c(0.5)],
+    [c(0.5), c(-0.5), c(0.5), c(0.5)],
+    [c(0.5), c(0.5), c(-0.5), c(0.5)],
+    [c(0.5), c(0.5), c(0.5), c(-0.5)],
+];
+
 // Convenience macro for complex constants
 const fn c(x: f64) -> Complex<f64> {
     Complex { re: x, im: 0.0 }
