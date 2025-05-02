@@ -21,4 +21,16 @@ impl QuantumState {
 
         (norm - 1.0).abs() < 1e-10
     }
+
+    pub fn apply_gate(&mut self, gate: &[[Complex<f64>; 4]; 4]) {
+        let mut new_state = vec![Complex::new(0.0, 0.0); 4];
+
+        for i in 0..4 {
+            for j in 0..4 {
+                new_state[i] += gate[i][j] * self.state[j];
+            }
+        }
+
+        self.state = new_state;
+    }
 }
