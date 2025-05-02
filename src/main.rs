@@ -15,4 +15,7 @@ fn main() {
 
     println!("Bell state: {:?}", q.state);
     println!("Is normalized? {}", q.is_normalized());
+
+    let result = q.measure();
+    println!("Measured result: {}", result);
 }

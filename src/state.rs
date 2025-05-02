@@ -1,4 +1,5 @@
 use num_complex::Complex;
+use rand::distributions::{Distribution, WeightedIndex};
 
 pub struct QuantumState {
     pub state: Vec<Complex<f64>>,
@@ -32,5 +33,32 @@ impl QuantumState {
         }
 
         self.state = new_state;
+    }
+
+    pub fn measure(&mut self) -> String {
+        // Step 1: compute probabilities
+        let probabilities: Vec<f64> = self.state.iter().map(|c| c.norm_sqr()).collect();
+
+        // Step 2: sample an index based on probabilities
+        let dist = WeightedIndex::new(&probabilities).unwrap();
+        let mut rng = rand::thread_rng();
+        let collapsed_index = dist.sample(&mut rng);
+
+        // Step 3: collapse state to the measured index
+        self.state = self
+            .state
+            .iter()
+            .enumerate()
+            .map(|(i, _)| {
+                if i == collapsed_index {
+                    Complex::new(1.0, 0.0)
+                } else {
+                    Complex::new(0.0, 0.0)
+                }
+            })
+            .collect();
+
+        // Step 4: return the measured bitstring (e.g. "00", "11")
+        format!("{:02b}", collapsed_index)
     }
 }
