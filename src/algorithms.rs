@@ -163,7 +163,8 @@ pub fn run_grover() {
     print_state(&q);
 
     println!("\n[Step 2] Apply oracle (mark |10⟩)");
-    q.apply_gate(&GROVER_ORACLE_10);
+    let oracle = grover_oracle(2); // 2 = |10⟩
+    q.apply_gate(&oracle);
     print_state(&q);
 
     println!("\n[Step 3] Apply diffusion operator");

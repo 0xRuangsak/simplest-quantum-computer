@@ -72,12 +72,17 @@ pub const Z2: Gate = [
     [c(0.0), c(0.0), c(0.0), c(-1.0)],
 ];
 
-pub const GROVER_ORACLE_10: Gate = [
-    [c(1.0), c(0.0), c(0.0), c(0.0)],
-    [c(0.0), c(1.0), c(0.0), c(0.0)],
-    [c(0.0), c(0.0), c(-1.0), c(0.0)],
-    [c(0.0), c(0.0), c(0.0), c(1.0)],
-];
+pub fn grover_oracle(target: usize) -> Gate {
+    let mut matrix = [[c(0.0); 4]; 4];
+    for i in 0..4 {
+        matrix[i][i] = if i == target {
+            c(-1.0) // Flip phase of marked state
+        } else {
+            c(1.0)
+        };
+    }
+    matrix
+}
 
 pub const DIFFUSION: Gate = [
     [c(-0.5), c(0.5), c(0.5), c(0.5)],
